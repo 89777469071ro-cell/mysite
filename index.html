@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Статус</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+            flex-direction: column;
+        }
+        
+        .status {
+            font-size: 80px;
+            font-weight: bold;
+            padding: 40px 80px;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+        
+        .on {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .off {
+            background: #f44336;
+            color: white;
+        }
+        
+        .unknown {
+            background: #999;
+            color: white;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        button {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-on {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-off {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="status unknown" id="status">---</div>
+
+<div class="buttons">
+    <button class="btn-on" onclick="setStatus('on')">Включить</button>
+    <button class="btn-off" onclick="setStatus('off')">Выключить</button>
+</div>
+
+<script>
+    function setStatus(status) {
+        const statusDiv = document.getElementById('status');
+        
+        if (status === 'on') {
+            statusDiv.textContent = 'ON';
+            statusDiv.className = 'status on';
+        } 
+        else if (status === 'off') {
+            statusDiv.textContent = 'OFF';
+            statusDiv.className = 'status off';
+        }
+    }
+    
+    // Проверяем параметр из URL (если есть)
+    const urlParams = new URLSearchParams(window.location.search);
+    const statusParam = urlParams.get('status');
+    
+    if (statusParam === 'on' || statusParam === 'off') {
+        setStatus(statusParam);
+    }
+</script>
+
+</body>
+</html>

@@ -84,27 +84,43 @@
 </div>
 
 <script>
-    function setStatus(status) {
+    async function setStatus(status) {
+        await fetch('/status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: status })
+        });
+
+        updateStatus(status);
+    }
+
+    function updateStatus(status) {
         const statusDiv = document.getElementById('status');
-        
+
         if (status === 'on') {
             statusDiv.textContent = 'ON';
             statusDiv.className = 'status on';
-        } 
-        else if (status === 'off') {
+        } else if (status === 'off') {
             statusDiv.textContent = 'OFF';
             statusDiv.className = 'status off';
+        } else {
+            statusDiv.textContent = '---';
+            statusDiv.className = 'status unknown';
         }
     }
-    
-    // Проверяем параметр из URL (если есть)
-    const urlParams = new URLSearchParams(window.location.search);
-    const statusParam = urlParams.get('status');
-    
-    if (statusParam === 'on' || statusParam === 'off') {
-        setStatus(statusParam);
+
+    async function loadStatus() {
+        const response = await fetch('/status');
+        const data = await response.json();
+
+        updateStatus(data.status);
     }
+
+    loadStatus();
 </script>
+
 
 </body>
 </html>
